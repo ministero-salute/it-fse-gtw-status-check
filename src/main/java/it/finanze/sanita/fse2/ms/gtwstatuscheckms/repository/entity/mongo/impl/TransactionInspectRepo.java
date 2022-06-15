@@ -28,14 +28,14 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 	private static final long serialVersionUID = 5151052155295400479L;
 
 	@Autowired
-	private transient MongoTemplate mongoTemplate;
+	private MongoTemplate mongoTemplate;
 	
 	@Override
-	public List<TransactionEventsETY> findEventsByWorkflowInstanceId(final String workflowInstanceId) {
+	public List<TransactionEventsETY> findEventsByTransactionId(final String transactionId) {
 		List<TransactionEventsETY> out = null;
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
+			query.addCriteria(Criteria.where("transactionId").is(transactionId));
 			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
 			out = mongoTemplate.find(query, TransactionEventsETY.class);
 		} catch(Exception ex) {

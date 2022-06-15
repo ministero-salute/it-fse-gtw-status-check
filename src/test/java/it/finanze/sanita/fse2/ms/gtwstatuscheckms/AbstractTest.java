@@ -50,15 +50,15 @@ public class AbstractTest {
 
     /**
      * Get transaction events generic method
-     * @param workflowInstance id of the transaction
+     * @param transactionId id of the transaction
      * @return entity containing all the events found
      */
-    ResponseEntity<TransactionInspectResDTO> getTransactionEvents(String workflowInstanceId) {
+    ResponseEntity<TransactionInspectResDTO> getTransactionEvents(String transactionId) {
         String url = "http://localhost:" +
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
                 "/v1.0.0/" +
-                workflowInstanceId;
+                transactionId;
         return restTemplate.getForEntity(url, TransactionInspectResDTO.class);
     }
 
@@ -125,7 +125,7 @@ public class AbstractTest {
         List<TransactionEventsETY> transactionEventsETYList = new ArrayList<>();
 
         TransactionEventsETY transactionEvent1 = new TransactionEventsETY();
-        transactionEvent1.setWorkflowInstanceId(TestConstants.workflowInstanceId);
+        transactionEvent1.setTransactionId(TestConstants.transactionId1);
         transactionEvent1.setOrganizzazione(TestConstants.organization1);
         transactionEvent1.setTipoAttivita(TestConstants.activityType1);
         transactionEvent1.setEventDate(Date.from(LocalDateTime.parse(TestConstants.eventDate1, format).toInstant(ZoneOffset.UTC)));
@@ -136,7 +136,7 @@ public class AbstractTest {
         transactionEvent1.setSubject(TestConstants.subject1);
 
         TransactionEventsETY transactionEvent2 = new TransactionEventsETY();
-        transactionEvent2.setWorkflowInstanceId(TestConstants.workflowInstanceId2);
+        transactionEvent2.setTransactionId(TestConstants.transactionId2);
         transactionEvent2.setOrganizzazione(TestConstants.organization2);
         transactionEvent2.setTipoAttivita(TestConstants.activityType2);
         transactionEvent2.setEventDate(Date.from(LocalDateTime.parse(TestConstants.eventDate2, format).toInstant(ZoneOffset.UTC)));
@@ -147,13 +147,13 @@ public class AbstractTest {
         transactionEvent2.setSubject(TestConstants.subject2);
 
         TransactionEventsETY transactionEvent3 = new TransactionEventsETY();
-        transactionEvent3.setWorkflowInstanceId(TestConstants.transactionId3);
+        transactionEvent3.setTransactionId(TestConstants.transactionId3);
         transactionEvent3.setEventDate(Date.from(LocalDateTime.parse(TestConstants.eventDate3, format).toInstant(ZoneOffset.UTC)));
         transactionEvent3.setEventStatus(TestConstants.eventStatus3);
         transactionEvent3.setEventType(TestConstants.eventType3);
 
         TransactionEventsETY transactionEvent4 = new TransactionEventsETY();
-        transactionEvent4.setWorkflowInstanceId(TestConstants.transactionId4);
+        transactionEvent4.setTransactionId(TestConstants.transactionId4);
         transactionEvent4.setEventDate(Date.from(LocalDateTime.parse(TestConstants.eventDate4, format).toInstant(ZoneOffset.UTC)));
         transactionEvent4.setEventStatus(TestConstants.eventStatus4);
         transactionEvent4.setEventType(TestConstants.eventType4);

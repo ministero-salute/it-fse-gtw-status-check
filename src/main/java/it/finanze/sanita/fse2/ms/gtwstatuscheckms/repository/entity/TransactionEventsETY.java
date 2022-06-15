@@ -47,7 +47,7 @@ public class TransactionEventsETY {
 	@Field(name = "organizzazione")
 	private String organizzazione;
 	
-	@Field(name = "workflow_instance_id")
-	private String workflowInstanceId;
+	@Field(name = "transactionId")
+	private String transactionId;
     
 }

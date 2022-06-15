@@ -1,10 +1,12 @@
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneOffset;
 import java.time.format.DateTimeFormatter;
 
 public class TestConstants {
-    public static final String workflowInstanceId = "e80e4862b2c246158523deb1359fead8";
+    public static final String transactionId1 = "e80e4862b2c246158523deb1359fead8";
     public static final String organization1 = "Bearer token";
     public static final String documentType1 = "Bearer token";
     public static final String activityType1 = "Bearer token";
@@ -14,7 +16,7 @@ public class TestConstants {
     public static final String identificativoDocumento1 = "Bearer token";
     public static final String subject1 = "Bearer token";
 
-    public static final String workflowInstanceId2 = "e80e4862b2c246158523deb1359fead8";
+    public static final String transactionId2 = "e80e4862b2c246158523deb1359fead8";
     public static final String organization2 = "Bearer token";
     public static final String documentType2 = "Bearer token";
     public static final String activityType2 = "Bearer token";

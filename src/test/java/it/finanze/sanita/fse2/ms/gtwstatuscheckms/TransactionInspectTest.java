@@ -3,7 +3,6 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.text.ParseException;
 import java.time.LocalDate;
@@ -23,10 +22,8 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.Constants;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.LocalDateConverter;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.TransactionInspectResDTO;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.service.ITransactionInspectSRV;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.service.impl.TransactionInspectSRV;
@@ -51,8 +48,6 @@ public class TransactionInspectTest extends AbstractTest {
 	@Autowired
 	TransactionInspectSRV srv;
 	
-	LocalDateConverter dateConverter = new LocalDateConverter();
-	
 	@BeforeEach
 	void init() throws ParseException {
 		cleanupCollection();
@@ -68,7 +63,7 @@ public class TransactionInspectTest extends AbstractTest {
 	void happyPath() {
 		//Sviluppare un metodo che permette l'invocazione del ctl (Ad esempio con restTemplate, vedere dispatcher - publicationTest)
 		//TransactionInspectResDTO -> assertEquals(sizeRecuperataDalDB , sizeCheRestituisceL'EP)
-		ResponseEntity<TransactionInspectResDTO> response = getTransactionEvents(TestConstants.workflowInstanceId);
+		ResponseEntity<TransactionInspectResDTO> response = getTransactionEvents(TestConstants.transactionId1);
 		assertEquals(200, response.getStatusCodeValue());
 		assertNotEquals(null, response);
 		assertNotEquals(null, response.getBody());
@@ -128,7 +123,7 @@ public class TransactionInspectTest extends AbstractTest {
 				TestConstants.dateTo,
 				null,
 				null,
-				null,
+				TestConstants.documentType1,
 				null,
 				null
 		);
@@ -137,7 +132,7 @@ public class TransactionInspectTest extends AbstractTest {
 		assertNotEquals(null, response.getBody());
 		assertNotEquals(null, response.getBody().getTransactionData());
 		assertNotEquals(0, response.getBody().getTransactionData().size());
-		assertEquals(4, response.getBody().getTransactionData().size());
+		assertEquals(2, response.getBody().getTransactionData().size());
 
 		// Search by status1
 		response = searchGenericTransactionEvents(
@@ -212,44 +207,4 @@ public class TransactionInspectTest extends AbstractTest {
 
 		assertThrows(HttpClientErrorException.class, () -> searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null) );
 	}
-	
-	
-	@Test
-	@DisplayName("test date handler format exception")
-	void dateConverterException() {
-		LocalDate convertDate = null;
-		
-		// Data null
-		try {
-			convertDate = dateConverter.convert(null);
-
-		} catch (Exception ex) {
-			Assertions.assertNull(convertDate);
-		}
-		assertThrows(BusinessException.class, () -> dateConverter.convert(null));
-		
-		// Data del formato errato
-		try {
-			convertDate = dateConverter.convert("pippo");
-
-		} catch (Exception ex) {
-			Assertions.assertNull(convertDate);
-		}
-		assertThrows(BusinessException.class, () -> dateConverter.convert("pippo"));
-		
-	}
-	
-	@Test
-	@DisplayName("test date handler format ok")
-	void dateConverterOK() {
-		
-		// Data convertita correttamente	
-		LocalDate convertDate = dateConverter.convert("2021-04-10");
-		Assertions.assertNotNull(convertDate);	
-		
-		
-		
-	}
-	
-	
 }

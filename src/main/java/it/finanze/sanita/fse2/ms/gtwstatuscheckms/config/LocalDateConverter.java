@@ -38,7 +38,7 @@ public class LocalDateConverter implements Converter<String, LocalDate> {
 		LocalDate out = null;
 		try {
 			if (date == null) {
-				return out;
+				out = null;
 			}
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format); 
 			out = LocalDate.parse(date, formatter);

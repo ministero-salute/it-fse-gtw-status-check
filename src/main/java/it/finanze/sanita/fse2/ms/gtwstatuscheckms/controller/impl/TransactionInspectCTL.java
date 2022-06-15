@@ -31,8 +31,8 @@ public class TransactionInspectCTL extends AbstractCTL implements ITransactionIn
 	private ITransactionInspectFacadeSRV transactionInspectSRV;
 	
 	@Override
-	public TransactionInspectResDTO getEvents(String workflowInstanceId, HttpServletRequest request) {
-		final List<TransactionEventsETY> result = transactionInspectSRV.findEventsByWorkflowInstanceId(workflowInstanceId);
+	public TransactionInspectResDTO getEvents(String transactionID, HttpServletRequest request) {
+		final List<TransactionEventsETY> result = transactionInspectSRV.findEventsByTransactionId(transactionID);
 		
 		if(result==null || result.isEmpty()) {
 			throw new NoRecordFoundException("Record non trovato");

@@ -25,11 +25,11 @@ public class TransactionInspectSRV implements ITransactionInspectSRV {
 	private ITransactionInspectRepo transactionInspectRepo;
 	
 	@Override
-	public List<TransactionEventsETY> findEventsByWorkflowInstanceId(final String workflowInstanceId) {
+	public List<TransactionEventsETY> findEventsByTransactionId(final String transactionId) {
 		try {
-			return transactionInspectRepo.findEventsByWorkflowInstanceId(workflowInstanceId);
+			return transactionInspectRepo.findEventsByTransactionId(transactionId);
 		} catch(Exception ex) {
-			log.error("Error while find events by workflow instance id : " , ex);
+			log.error("Error while find events by transaction id : " , ex);
 			throw new BusinessException(ex);
 		}
 		

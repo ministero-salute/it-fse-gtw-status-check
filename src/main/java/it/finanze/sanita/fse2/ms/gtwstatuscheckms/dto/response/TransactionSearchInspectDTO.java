@@ -4,7 +4,6 @@ import java.util.List;
 
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 
@@ -16,7 +15,6 @@ import lombok.Setter;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 public class TransactionSearchInspectDTO extends ResponseDTO {
 
 	/**
@@ -24,11 +22,16 @@ public class TransactionSearchInspectDTO extends ResponseDTO {
 	 */
 	private static final long serialVersionUID = -1550024371939901939L;
 	
-	private List<TransactionEventsETY> transactionData;
-	 
-	public TransactionSearchInspectDTO(final LogTraceInfoDTO traceInfo, final List<TransactionEventsETY> inTransactionData) {
+	private List<TransactionEventsETY> transactionEventETY;
+	
+	public TransactionSearchInspectDTO() {
+		super();
+		transactionEventETY = null;
+	}
+
+	public TransactionSearchInspectDTO(final LogTraceInfoDTO traceInfo, final List<TransactionEventsETY> inTransactionEventETY) {
 		super(traceInfo);
-		transactionData = inTransactionData;
+		transactionEventETY = inTransactionEventETY;
 	}
 	
 }
