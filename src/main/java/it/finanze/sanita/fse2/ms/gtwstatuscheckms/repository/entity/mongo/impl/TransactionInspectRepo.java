@@ -31,11 +31,11 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 	private MongoTemplate mongoTemplate;
 	
 	@Override
-	public List<TransactionEventsETY> findEventsByTransactionId(final String transactionId) {
+	public List<TransactionEventsETY> findEventsByTransactionId(final String workflowInstanceId) {
 		List<TransactionEventsETY> out = null;
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("transactionId").is(transactionId));
+			query.addCriteria(Criteria.where("workflowInstanceId").is(workflowInstanceId));
 			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
 			out = mongoTemplate.find(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
@@ -84,4 +84,19 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		return out;
 	}
 	
+	@Override
+	public List<TransactionEventsETY> findEventsByTraceId(final String traceId) {
+		List<TransactionEventsETY> out = null;
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("traceId").is(traceId));
+			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
+			out = mongoTemplate.find(query, TransactionEventsETY.class);
+		} catch(Exception ex) {
+			log.error("Error while find events by transaction id : " , ex);
+			throw new BusinessException(ex);
+		}
+		return out;
+		
+	}
 }

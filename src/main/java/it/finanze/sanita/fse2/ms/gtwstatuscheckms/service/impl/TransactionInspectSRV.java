@@ -45,4 +45,15 @@ public class TransactionInspectSRV implements ITransactionInspectSRV {
 		}
 	}
 
+	@Override
+	public List<TransactionEventsETY> findEventsByTraceId(final String traceId) {
+		try {
+			return transactionInspectRepo.findEventsByTraceId(traceId);
+		} catch(Exception ex) {
+			log.error("Error while find events by transaction id : " , ex);
+			throw new BusinessException(ex);
+		}
+		
+	}
+
 }

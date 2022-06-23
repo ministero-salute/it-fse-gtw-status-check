@@ -11,4 +11,6 @@ public interface ITransactionInspectFacadeSRV extends Serializable {
 	List<TransactionEventsETY> findEventsByTransactionId(String transactionId);
 	
 	List<TransactionEventsETY> searchGenericEvents(TransactionSearchDTO searchParametersDTO);
+	
+	List<TransactionEventsETY> findEventsByTraceId(String traceId);
 }

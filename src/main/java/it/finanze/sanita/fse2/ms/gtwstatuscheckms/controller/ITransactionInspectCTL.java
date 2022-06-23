@@ -24,18 +24,18 @@ import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.TransactionSearch
 *
 * Controller for Transactions' Inspection.
 */
-@RequestMapping(path = "/v1.0.0")
+@RequestMapping(path = "/v1")
 @Tag(name = "Servizio ispezione transazioni")
 public interface ITransactionInspectCTL {
  
-	@RequestMapping(value = "/{transactionID}",method = RequestMethod.GET)
+	@RequestMapping(value = "/{workflowInstanceId}",method = RequestMethod.GET)
 	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TransactionInspectResDTO.class)))
-	@Operation(summary = "Recupero eventi della transazione", description = "Recupera il dettaglio degli eventi tramite l'id della transazione.")
+	@Operation(summary = "Recupero eventi del workflow instance id", description = "Recupera il dettaglio degli eventi tramite il workflow instance id.")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Eventi recuperati", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TransactionInspectResDTO.class))),
 			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))),
 			@ApiResponse(responseCode = "404", description = "Record not found", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))),
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))) })
-	TransactionInspectResDTO getEvents(@PathVariable(required = true, name = "transactionID") String transactionID,HttpServletRequest request);
+	TransactionInspectResDTO getEvents(@PathVariable(required = true, name = "workflowInstanceId") String workflowInstanceId,HttpServletRequest request);
 
 	@RequestMapping(value = "/search-events",method = RequestMethod.GET)
 	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TransactionSearchInspectDTO.class)))
@@ -47,5 +47,14 @@ public interface ITransactionInspectCTL {
 	TransactionSearchInspectDTO searchGenericEvents(LocalDate dataDa, LocalDate dataA, @RequestParam(required = false) String status, @RequestParam(required = false) String subject,
 			@RequestParam(required = false)String organization, @RequestParam(required = false)String tipoAttivita,
 			HttpServletRequest request);
+	
+	@RequestMapping(value = "/search/{traceId}",method = RequestMethod.GET)
+	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TransactionInspectResDTO.class)))
+	@Operation(summary = "Recupero eventi del trace id", description = "Recupera il dettaglio degli eventi tramite il trace id.")
+	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Eventi recuperati", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = TransactionInspectResDTO.class))),
+			@ApiResponse(responseCode = "400", description = "Bad Request", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))),
+			@ApiResponse(responseCode = "404", description = "Record not found", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))),
+			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))) })
+	TransactionInspectResDTO getEventsByTraceId(@PathVariable(required = true, name = "traceId") String traceId,HttpServletRequest request);
 	
 }
