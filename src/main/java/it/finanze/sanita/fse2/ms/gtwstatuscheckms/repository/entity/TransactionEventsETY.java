@@ -53,6 +53,9 @@ public class TransactionEventsETY {
 	@Field(name = "traceId")
 	private String traceId;
 	
+	@Field(name = "issuer")
+	private String issuer;
+	
 	
     
 }
