@@ -29,7 +29,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 
 	@Autowired
 	private transient MongoTemplate mongoTemplate;
-	
+
 	@Override
 	public List<TransactionEventsETY> findEventsByWorkflowInstanceId(final String workflowInstanceId) {
 		List<TransactionEventsETY> out = null;
@@ -84,4 +84,34 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		return out;
 	}
 	
+	@Override
+	public List<TransactionEventsETY> findEventsByTraceId(final String traceId) {
+		List<TransactionEventsETY> out = null;
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("traceId").is(traceId));
+			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
+			out = mongoTemplate.find(query, TransactionEventsETY.class);
+		} catch(Exception ex) {
+			log.error("Error while find events by transaction id : " , ex);
+			throw new BusinessException(ex);
+		}
+		return out;
+		
+	}
+
+	@Override
+	public TransactionEventsETY findLastEventByWorkflowInstanceId(String workflowInstanceId) {
+		TransactionEventsETY out = null;
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
+			query.with(Sort.by(Sort.Direction.DESC, "eventDate"));
+			out = mongoTemplate.findOne(query, TransactionEventsETY.class);
+		} catch(Exception ex) {
+			log.error("Error while find events by transaction id : " , ex);
+			throw new BusinessException(ex);
+		}
+		return out;
+	}
 }

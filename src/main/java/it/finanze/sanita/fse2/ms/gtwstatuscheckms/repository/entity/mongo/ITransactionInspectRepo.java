@@ -9,6 +9,10 @@ import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionE
 public interface ITransactionInspectRepo extends Serializable {
 
 	List<TransactionEventsETY> findEventsByWorkflowInstanceId(String workflowInstanceId);
-	
+
 	List<TransactionEventsETY> searchGenericEvents(TransactionSearchDTO searchParametersDTO);
+	
+	List<TransactionEventsETY> findEventsByTraceId(String traceId);
+
+	TransactionEventsETY findLastEventByWorkflowInstanceId(String workflowInstanceId);
 }

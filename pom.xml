@@ -21,11 +21,16 @@
 		<!-- Application -->
 		<java.version>1.8</java.version>
 		<spring-cloud.version>2021.0.1</spring-cloud.version>
-		<start-class>it.finanze.sanita.fse2.ms.gtwstatuscheckms.GtwStatusCheckMsApplication</start-class>
+
 		<!-- Build -->
 		<config.infra>${project.basedir}/infrastructure</config.infra>
 		<container.output>target/container</container.output>
 		<container.output.runtime>${container.output}/runtime</container.output.runtime>
+
+		<!-- SonarQube -->
+		<sonar.coverage.exclusions>
+			src/main/java/it/finanze/sanita/fse2/ms/gtwstatuscheckms/config/openapi/*
+		</sonar.coverage.exclusions>
 	</properties>
 
 	<dependencies>

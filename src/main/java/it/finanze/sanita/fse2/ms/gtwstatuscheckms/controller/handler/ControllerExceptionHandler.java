@@ -58,7 +58,7 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = {NoRecordFoundException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleNoRecordFoundException(final NoRecordFoundException ex, final WebRequest request) {
 		log.info("HANDLER handleNoRecordFoundException");
-		Integer status = 500;
+		Integer status = 404;
 		String detailedMessage = "Record non trovato, assicurarsi che i dati inseriti siano corretti";
 		ErrorResponseDTO out = new ErrorResponseDTO(getLogTraceInfo(), "/msg/not-found", ex.getMessage(),detailedMessage , status, "/msg/not-found");
 		HttpHeaders headers = new HttpHeaders();

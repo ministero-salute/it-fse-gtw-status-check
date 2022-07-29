@@ -1,19 +1,12 @@
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LastTransactionResponseDTO;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.ComponentScan;
@@ -32,16 +25,14 @@ import it.finanze.sanita.fse2.ms.gtwstatuscheckms.service.ITransactionInspectSRV
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.service.impl.TransactionInspectSRV;
 import lombok.extern.slf4j.Slf4j;
 
+import static org.junit.jupiter.api.Assertions.*;
+
 @Slf4j
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @ComponentScan(basePackages = {Constants.ComponentScan.BASE})
 @ActiveProfiles(Constants.Profile.TEST)
-public class TransactionInspectTest extends AbstractTest {
-	//TODO - Fare test transaction inspect
-	
-	//TODO - Magari prevedere un abstract per fare la chiamata rest una singola volta ed 
-	//usarla in tutti e due i casi
-	
+class TransactionInspectTest extends AbstractTest {
+
 	@Autowired
 	private RestTemplate restTemplate;
 
@@ -53,7 +44,7 @@ public class TransactionInspectTest extends AbstractTest {
 	
 	LocalDateConverter dateConverter = new LocalDateConverter();
 	
-	@BeforeEach
+	@BeforeAll
 	void init() throws ParseException {
 		cleanupCollection();
 		List<TransactionEventsETY> transactionEventsETYList = initList();
@@ -65,9 +56,7 @@ public class TransactionInspectTest extends AbstractTest {
 	 */
 	@Test
 	@DisplayName("Test happy path -> 200")
-	void happyPath() {
-		//Sviluppare un metodo che permette l'invocazione del ctl (Ad esempio con restTemplate, vedere dispatcher - publicationTest)
-		//TransactionInspectResDTO -> assertEquals(sizeRecuperataDalDB , sizeCheRestituisceL'EP)
+	void successTest() {
 		ResponseEntity<TransactionInspectResDTO> response = getTransactionEvents(TestConstants.workflowInstanceId);
 		assertEquals(200, response.getStatusCodeValue());
 		assertNotEquals(null, response);
@@ -81,7 +70,7 @@ public class TransactionInspectTest extends AbstractTest {
 	@DisplayName("Test no record found")
 	void noRecordFoundTest() throws Exception{
 		
-		assertThrows(HttpClientErrorException.class, () -> getTransactionEvents(TestConstants.transactionIDNoFound) );
+		assertThrows(HttpClientErrorException.class, () -> getTransactionEvents(TestConstants.workflowInstanceIdNoFound) );
 		
 	}
 
@@ -185,7 +174,7 @@ public class TransactionInspectTest extends AbstractTest {
 		try {
 			searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null);
 		} catch(HttpClientErrorException ex) {
-			Assertions.assertEquals(ex.getRawStatusCode(), 404);
+			Assertions.assertEquals(404, ex.getRawStatusCode());
 		}
 		assertThrows(HttpClientErrorException.class, () -> searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null) );
 		
@@ -196,7 +185,7 @@ public class TransactionInspectTest extends AbstractTest {
 		try {
 			searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null);
 		} catch(HttpClientErrorException ex) {
-			Assertions.assertEquals(ex.getRawStatusCode(), 404);
+			Assertions.assertEquals(404, ex.getRawStatusCode());
 		}
 		assertThrows(HttpClientErrorException.class, () -> searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null) );
 		
@@ -207,7 +196,7 @@ public class TransactionInspectTest extends AbstractTest {
 		try {
 			searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null);
 		} catch(HttpClientErrorException ex) {
-			Assertions.assertEquals(ex.getRawStatusCode(), 404);
+			Assertions.assertEquals(404, ex.getRawStatusCode());
 		}
 
 		assertThrows(HttpClientErrorException.class, () -> searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null) );
@@ -236,20 +225,59 @@ public class TransactionInspectTest extends AbstractTest {
 			Assertions.assertNull(convertDate);
 		}
 		assertThrows(BusinessException.class, () -> dateConverter.convert("pippo"));
-		
 	}
 	
 	@Test
 	@DisplayName("test date handler format ok")
 	void dateConverterOK() {
-		
 		// Data convertita correttamente	
 		LocalDate convertDate = dateConverter.convert("2021-04-10");
-		Assertions.assertNotNull(convertDate);	
-		
-		
-		
+		Assertions.assertNotNull(convertDate);
 	}
-	
-	
+
+	@Test
+	@DisplayName("Test traceId events -> 200 OK")
+	void searchEventsByTraceIdTestOK() {
+		// Search by transactionidMock
+		ResponseEntity<TransactionInspectResDTO> response = getTransactionEventsByTraceId(
+				TestConstants.traceIdMock
+		);
+		assertEquals(200, response.getStatusCodeValue());
+		assertNotNull(response);
+		assertNotNull(response.getBody());
+		assertNotNull(response.getBody().getTransactionData());
+		assertNotEquals(0, response.getBody().getTransactionData().size());
+		assertEquals(4, response.getBody().getTransactionData().size());
+	}
+
+	@Test
+	@DisplayName("Test traceId events -> 404 Not found")
+	void searchEventsByTraceIdNotFound() {
+		assertThrows(HttpClientErrorException.NotFound.class, () -> getTransactionEventsByTraceId(
+				"unexistingTraceId"
+		));
+	}
+
+	@Test
+	@DisplayName("Test wii events -> 200 OK")
+	void searchEventsByWiiTestOK() {
+		// Search by Wii
+		ResponseEntity<LastTransactionResponseDTO> response = getLastTransactionEventByWorkflowInstanceId(
+				TestConstants.workflowInstanceId
+		);
+		assertEquals(200, response.getStatusCodeValue());
+		assertNotNull(response);
+		assertNotNull(response.getBody());
+		assertNotNull(response.getBody().getLastTransactionData());
+		assertEquals("SEND_TO_EDS", response.getBody().getLastTransactionData().getEventType());
+		assertEquals("SUCCESS", response.getBody().getLastTransactionData().getEventStatus());
+	}
+
+	@Test
+	@DisplayName("Test wii events -> 404 Not found")
+	void searchEventsByWiiNotFound() {
+		assertThrows(HttpClientErrorException.NotFound.class, () -> getLastTransactionEventByWorkflowInstanceId(
+				"unexistingWId"
+		));
+	}
 }

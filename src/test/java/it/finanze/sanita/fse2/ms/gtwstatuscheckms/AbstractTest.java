@@ -10,6 +10,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LastTransactionResponseDTO;
+import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -22,7 +24,8 @@ import org.springframework.web.util.UriComponentsBuilder;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.TransactionInspectResDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
 
-public class AbstractTest {
+@TestInstance(TestInstance.Lifecycle.PER_CLASS)
+public abstract class AbstractTest {
 
     @Autowired
     private MongoTemplate mongoTemplate;
@@ -50,14 +53,14 @@ public class AbstractTest {
 
     /**
      * Get transaction events generic method
-     * @param workflowInstance id of the transaction
+     * @param workflowInstanceId id of the transaction
      * @return entity containing all the events found
      */
     ResponseEntity<TransactionInspectResDTO> getTransactionEvents(String workflowInstanceId) {
         String url = "http://localhost:" +
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
-                "/v1.0.0/" +
+                "/v1/" +
                 workflowInstanceId;
         return restTemplate.getForEntity(url, TransactionInspectResDTO.class);
     }
@@ -80,7 +83,7 @@ public class AbstractTest {
         String url = "http://localhost:" +
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
-                "/v1.0.0/search-events";
+                "/v1/search-events";
         MultiValueMap<String, String> queryParams = new LinkedMultiValueMap<>();
         putNonNullIntoMap(queryParams,"organization", organization);
         putNonNullIntoMap(queryParams,"tipoDocumento", documentType);
@@ -134,6 +137,7 @@ public class AbstractTest {
         transactionEvent1.setEventType(TestConstants.eventType1);
         transactionEvent1.setIdentificativoDocumento(TestConstants.identificativoDocumento1);
         transactionEvent1.setSubject(TestConstants.subject1);
+        transactionEvent1.setTraceId(TestConstants.traceIdMock);
 
         TransactionEventsETY transactionEvent2 = new TransactionEventsETY();
         transactionEvent2.setWorkflowInstanceId(TestConstants.workflowInstanceId2);
@@ -145,23 +149,54 @@ public class AbstractTest {
         transactionEvent2.setEventType(TestConstants.eventType2);
         transactionEvent2.setIdentificativoDocumento(TestConstants.identificativoDocumento2);
         transactionEvent2.setSubject(TestConstants.subject2);
+        transactionEvent2.setTraceId(TestConstants.traceIdMock);
 
         TransactionEventsETY transactionEvent3 = new TransactionEventsETY();
-        transactionEvent3.setWorkflowInstanceId(TestConstants.transactionId3);
+        transactionEvent3.setWorkflowInstanceId(TestConstants.workflowInstanceId3);
         transactionEvent3.setEventDate(Date.from(LocalDateTime.parse(TestConstants.eventDate3, format).toInstant(ZoneOffset.UTC)));
         transactionEvent3.setEventStatus(TestConstants.eventStatus3);
         transactionEvent3.setEventType(TestConstants.eventType3);
+        transactionEvent3.setTraceId(TestConstants.traceIdMock);
 
         TransactionEventsETY transactionEvent4 = new TransactionEventsETY();
-        transactionEvent4.setWorkflowInstanceId(TestConstants.transactionId4);
+        transactionEvent4.setWorkflowInstanceId(TestConstants.workflowInstanceId4);
         transactionEvent4.setEventDate(Date.from(LocalDateTime.parse(TestConstants.eventDate4, format).toInstant(ZoneOffset.UTC)));
         transactionEvent4.setEventStatus(TestConstants.eventStatus4);
         transactionEvent4.setEventType(TestConstants.eventType4);
+        transactionEvent4.setTraceId(TestConstants.traceIdMock);
 
         transactionEventsETYList.add(transactionEvent1);
         transactionEventsETYList.add(transactionEvent2);
         transactionEventsETYList.add(transactionEvent3);
         transactionEventsETYList.add(transactionEvent4);
         return transactionEventsETYList;
+    }
+
+    /**
+     * Get transaction events by trace id
+     * @param traceId id of the transaction
+     * @return entity containing all the events found
+     */
+    ResponseEntity<TransactionInspectResDTO> getTransactionEventsByTraceId(String traceId) {
+        String url = "http://localhost:" +
+                webServerAppCtxt.getWebServer().getPort() +
+                webServerAppCtxt.getServletContext().getContextPath() +
+                "/v1/search/" +
+                traceId;
+        return restTemplate.getForEntity(url, TransactionInspectResDTO.class);
+    }
+
+    /**
+     * Get transaction events by workflow instance id
+     * @param workflowInstanceId of the transaction
+     * @return entity containing all the events found
+     */
+    ResponseEntity<LastTransactionResponseDTO> getLastTransactionEventByWorkflowInstanceId(String workflowInstanceId) {
+        String url = "http://localhost:" +
+                webServerAppCtxt.getWebServer().getPort() +
+                webServerAppCtxt.getServletContext().getContextPath() +
+                "/v1/search-last/" +
+                workflowInstanceId;
+        return restTemplate.getForEntity(url, LastTransactionResponseDTO.class);
     }
 }

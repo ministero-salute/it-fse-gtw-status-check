@@ -2,6 +2,7 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.mongo;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -29,7 +30,10 @@ public class MongoDatabaseCFG {
 
 	@Autowired
 	private MongoPropertiesCFG mongoPropertiesCFG;
- 
+
+    @Autowired
+    private ApplicationContext appContext;
+
     @Bean
     public MongoDatabaseFactory mongoDatabaseFactory(){
         return new SimpleMongoClientDatabaseFactory(mongoPropertiesCFG.getUri());
@@ -39,8 +43,10 @@ public class MongoDatabaseCFG {
     @Primary
     public MongoTemplate mongoTemplate() {
         final MongoDatabaseFactory factory = mongoDatabaseFactory();
-        MappingMongoConverter converter =
-                new MappingMongoConverter(new DefaultDbRefResolver(factory), new MongoMappingContext());
+        final MongoMappingContext mongoMappingContext = new MongoMappingContext();
+        mongoMappingContext.setApplicationContext(appContext);
+        MappingMongoConverter converter = new MappingMongoConverter(new DefaultDbRefResolver(factory), mongoMappingContext);
+
         converter.setTypeMapper(new DefaultMongoTypeMapper(null));
         return new MongoTemplate(factory, converter);
     }
