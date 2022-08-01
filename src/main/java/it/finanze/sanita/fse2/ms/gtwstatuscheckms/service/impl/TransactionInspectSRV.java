@@ -1,5 +1,11 @@
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.service.impl;
 
+import java.util.List;
+import java.util.Objects;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.LastTransactionEventDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.enums.EventTypeEnum;
@@ -8,13 +14,7 @@ import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.NoRecordFoundExcept
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.mongo.ITransactionInspectRepo;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.service.ITransactionInspectSRV;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility.JsonUtility;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.Objects;
 
 @Slf4j
 @Service
@@ -65,7 +65,6 @@ public class TransactionInspectSRV implements ITransactionInspectSRV {
 		if (lastEvent == null) {
 			throw new NoRecordFoundException("Record non trovato");
 		}
-		log.info("Found event: {}", JsonUtility.objectToJson(lastEvent));
 		String transactionStatus = "";
 		switch (EventTypeEnum.valueOf(lastEvent.getEventType())) {
 			case VALIDATION:

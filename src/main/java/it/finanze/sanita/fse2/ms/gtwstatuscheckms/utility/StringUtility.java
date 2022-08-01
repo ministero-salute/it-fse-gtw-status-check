@@ -2,9 +2,6 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility;
 
 import java.util.UUID;
 
-import lombok.extern.slf4j.Slf4j;
-
-@Slf4j
 public final class StringUtility {
 
 	/**
