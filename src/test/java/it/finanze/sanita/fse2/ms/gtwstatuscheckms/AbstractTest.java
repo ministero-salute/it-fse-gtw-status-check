@@ -199,4 +199,23 @@ public abstract class AbstractTest {
                 workflowInstanceId;
         return restTemplate.getForEntity(url, LastTransactionResponseDTO.class);
     }
+    
+    TransactionEventsETY buildTransactionEventsETY(int i) {
+    	
+        return TransactionEventsETY.builder()
+                .eventDate(new Date())
+                .eventStatus(TestConstants.eventStatus1)
+                .eventType(TestConstants.eventType1)
+                .id(null)
+                .identificativoDocumento(TestConstants.identificativoDocumento1)
+                .issuer("issuer")
+                .message("msg")
+                .organizzazione(TestConstants.organization1)
+                .subject(TestConstants.subject1)
+                .subjectRole(TestConstants.subject1)
+                .tipoAttivita(TestConstants.activityType1)
+                .traceId(TestConstants.traceIdMock)
+                .workflowInstanceId(TestConstants.workflowInstanceId)
+                .build();
+    }
 }

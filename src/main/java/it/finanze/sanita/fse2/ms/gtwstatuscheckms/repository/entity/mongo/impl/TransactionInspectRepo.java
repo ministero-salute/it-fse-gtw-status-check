@@ -10,6 +10,8 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.DbPropertyCFG;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.StartupListener;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
@@ -27,8 +29,15 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 	 */
 	private static final long serialVersionUID = 5151052155295400479L;
 
+	
 	@Autowired
 	private transient MongoTemplate mongoTemplate;
+	
+	@Autowired
+	private DbPropertyCFG limitConfig;
+	
+	@Autowired
+	private StartupListener startupListener;
 
 	@Override
 	public List<TransactionEventsETY> findEventsByWorkflowInstanceId(final String workflowInstanceId) {
@@ -37,6 +46,14 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
 			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
+
+			boolean status = startupListener.getLimitStatus(limitConfig.getLimitConfig());
+			
+			if(status == false) {
+				query.limit(100);
+			} else {
+				query.limit(limitConfig.getLimitConfig());
+			}
 			out = mongoTemplate.find(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
 			log.error("Error while find events by transaction id : " , ex);
