@@ -240,7 +240,7 @@ class TransactionInspectTest extends AbstractTest {
 	}
 	
 	@Test
-	@DisplayName("test generic events -> 404")
+	@DisplayName("test generic events -> 400")
 	void searchGenericTransactionEventsException() throws Exception {
 		//Data Da sia maggiore della data odierna
 		TransactionSearchDTO request = new TransactionSearchDTO();
@@ -250,7 +250,7 @@ class TransactionInspectTest extends AbstractTest {
 		try {
 			searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null);
 		} catch(HttpClientErrorException ex) {
-			Assertions.assertEquals(404, ex.getRawStatusCode());
+			Assertions.assertEquals(400, ex.getRawStatusCode());
 		}
 		assertThrows(HttpClientErrorException.class, () -> searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null) );
 		
@@ -261,7 +261,7 @@ class TransactionInspectTest extends AbstractTest {
 		try {
 			searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null);
 		} catch(HttpClientErrorException ex) {
-			Assertions.assertEquals(404, ex.getRawStatusCode());
+			Assertions.assertEquals(400, ex.getRawStatusCode());
 		}
 		assertThrows(HttpClientErrorException.class, () -> searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null) );
 		
@@ -272,7 +272,7 @@ class TransactionInspectTest extends AbstractTest {
 		try {
 			searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null);
 		} catch(HttpClientErrorException ex) {
-			Assertions.assertEquals(404, ex.getRawStatusCode());
+			Assertions.assertEquals(400, ex.getRawStatusCode());
 		}
 
 		assertThrows(HttpClientErrorException.class, () -> searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null) );
