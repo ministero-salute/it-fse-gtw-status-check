@@ -2,7 +2,6 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.controller.handler;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -11,11 +10,14 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import brave.Tracer;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.ErrorResponseDTO;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.base.ErrorResponseDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.ValidationException;
 import lombok.extern.slf4j.Slf4j;
+
+import static it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.ErrorBuilderDTO.*;
+import static it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.ErrorBuilderDTO.createGenericError;
 
 /**
  *	Exceptions Handler.
@@ -40,12 +42,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(value = {ValidationException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleValidationException(final ValidationException ex, final WebRequest request) {
-		log.info("HANDLER handleValidationException");
-		Integer status = 400;
-		ErrorResponseDTO out = new ErrorResponseDTO(getLogTraceInfo(), "/msg/validation","Errore di validazione" ,ex.getMessage(), status, "/msg/validation");
+		// Log me
+		log.warn("HANDLER handleValidationException()");
+		log.error("HANDLER handleValidationException()", ex);
+		// Create error DTO
+		ErrorResponseDTO out = createConstraintError(getLogTraceInfo(), ex);
+		// Set HTTP headers
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON);
-		return new ResponseEntity<>(out, headers, HttpStatus.NOT_FOUND);
+		// Bye bye
+		return new ResponseEntity<>(out, headers, out.getStatus());
 	}
 	
 	/**
@@ -57,13 +63,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(value = {NoRecordFoundException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleNoRecordFoundException(final NoRecordFoundException ex, final WebRequest request) {
-		log.info("HANDLER handleNoRecordFoundException");
-		Integer status = 404;
-		String detailedMessage = "Record non trovato, assicurarsi che i dati inseriti siano corretti";
-		ErrorResponseDTO out = new ErrorResponseDTO(getLogTraceInfo(), "/msg/not-found", ex.getMessage(),detailedMessage , status, "/msg/not-found");
+		// Log me
+		log.warn("HANDLER handleNoRecordFoundException()");
+		log.error("HANDLER handleNoRecordFoundException()", ex);
+		// Create error DTO
+		ErrorResponseDTO out = createNoRecordFoundError(getLogTraceInfo(), ex);
+		// Set HTTP headers
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON);
-		return new ResponseEntity<>(out, headers, HttpStatus.NOT_FOUND);
+		// Bye bye
+		return new ResponseEntity<>(out, headers, out.getStatus());
 	}
 
 	/**
@@ -75,15 +84,16 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	 */
 	@ExceptionHandler(value = {Exception.class})
 	protected ResponseEntity<ErrorResponseDTO> handleGenericException(final Exception ex, final WebRequest request) {
-		log.info("HANDLER handleGenericException");
-		Integer status = 500;
-
-		ErrorResponseDTO out = new ErrorResponseDTO(getLogTraceInfo(), "/msg/generic-error", "Errore generico", "Errore generico", status, "/msg/generic-error");
-
+		// Log me
+		log.warn("HANDLER handleGenericException()");
+		log.error("HANDLER handleGenericException()", ex);
+		// Create error DTO
+		ErrorResponseDTO out = createGenericError(getLogTraceInfo(), ex);
+		// Set HTTP headers
 		HttpHeaders headers = new HttpHeaders();
 		headers.setContentType(MediaType.APPLICATION_PROBLEM_JSON);
-
-		return new ResponseEntity<>(out, headers, status);
+		// Bye bye
+		return new ResponseEntity<>(out, headers, out.getStatus());
 	}
 
 	private LogTraceInfoDTO getLogTraceInfo() {

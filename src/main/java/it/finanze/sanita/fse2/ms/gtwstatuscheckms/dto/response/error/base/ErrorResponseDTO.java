@@ -1,4 +1,4 @@
-package it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response;
+package it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.base;
 
 import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
@@ -6,6 +6,7 @@ import javax.validation.constraints.Size;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.AbstractDTO;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LogTraceInfoDTO;
 import lombok.Data;
 
 

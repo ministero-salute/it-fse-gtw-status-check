@@ -11,7 +11,6 @@ import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.DbPropertyCFG;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.StartupListener;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
@@ -36,9 +35,6 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 	@Autowired
 	private DbPropertyCFG limitConfig;
 	
-	@Autowired
-	private StartupListener startupListener;
-
 	@Override
 	public List<TransactionEventsETY> findEventsByWorkflowInstanceId(final String workflowInstanceId) {
 		List<TransactionEventsETY> out = null;
@@ -46,10 +42,8 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
 			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
-
-			boolean status = startupListener.getLimitStatus(limitConfig.getLimitConfig());
 			
-			if(status == false) {
+			if(limitConfig.getLimitConfig()==null || limitConfig.getLimitConfig().equals(0)) {
 				query.limit(100);
 			} else {
 				query.limit(limitConfig.getLimitConfig());
