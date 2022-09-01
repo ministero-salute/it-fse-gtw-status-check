@@ -3,8 +3,10 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response;
 import io.swagger.v3.oas.annotations.media.Schema;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Data
+@EqualsAndHashCode(callSuper = true)
 public class LastTransactionResponseDTO extends ResponseDTO {
 
 	/**
