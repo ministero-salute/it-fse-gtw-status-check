@@ -84,7 +84,7 @@ public class TransactionInspectSRV implements ITransactionInspectSRV {
 				break;
 		}
 
-		log.info("Transaction status: {}", transactionStatus);
+		log.debug("Transaction status reached: {}", transactionStatus);
 
 		return LastTransactionEventDTO.builder()
 				.transactionStatus(transactionStatus)
