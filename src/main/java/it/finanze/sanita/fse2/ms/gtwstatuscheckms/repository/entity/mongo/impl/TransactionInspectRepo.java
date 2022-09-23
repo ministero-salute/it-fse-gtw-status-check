@@ -27,6 +27,8 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 	 * Serial version uid.
 	 */
 	private static final long serialVersionUID = 5151052155295400479L;
+	private static final String EVENT_DATE = "eventDate";
+	private static final String ERROR_MSG = "Error while find events by transaction id : ";
 
 	
 	@Autowired
@@ -41,7 +43,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		try {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
-			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
+			query.with(Sort.by(Sort.Direction.ASC, EVENT_DATE));
 			
 			if(limitConfig.getLimitConfig()==null || limitConfig.getLimitConfig().equals(0)) {
 				query.limit(100);
@@ -50,7 +52,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 			}
 			out = mongoTemplate.find(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
-			log.error("Error while find events by transaction id : " , ex);
+			log.error(ERROR_MSG , ex);
 			throw new BusinessException(ex);
 		}
 		return out;
@@ -67,7 +69,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 			Date dataA = DateUtility.setDateTo2359(java.sql.Date.valueOf(searchParametersDTO.getDataA()));
 			
 			Criteria criteria = new Criteria();
-			criteria.andOperator(Criteria.where("eventDate").gte(dataDa).lte(dataA));
+			criteria.andOperator(Criteria.where(EVENT_DATE).gte(dataDa).lte(dataA));
 			
 			if(!StringUtility.isNullOrEmpty(searchParametersDTO.getStatus())) {
 				criteria.and("eventStatus").is(searchParametersDTO.getStatus());	
@@ -86,7 +88,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 			}
 			
 			query.addCriteria(criteria);
-			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
+			query.with(Sort.by(Sort.Direction.ASC, EVENT_DATE));
 			out = mongoTemplate.find(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
 			log.error("Error while search generic events : " , ex);
@@ -101,10 +103,10 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		try {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("traceId").is(traceId));
-			query.with(Sort.by(Sort.Direction.ASC, "eventDate"));
+			query.with(Sort.by(Sort.Direction.ASC, EVENT_DATE));
 			out = mongoTemplate.find(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
-			log.error("Error while find events by transaction id : " , ex);
+			log.error(ERROR_MSG , ex);
 			throw new BusinessException(ex);
 		}
 		return out;
@@ -117,10 +119,10 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		try {
 			Query query = new Query();
 			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
-			query.with(Sort.by(Sort.Direction.DESC, "eventDate"));
+			query.with(Sort.by(Sort.Direction.DESC, EVENT_DATE));
 			out = mongoTemplate.findOne(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
-			log.error("Error while find events by transaction id : " , ex);
+			log.error(ERROR_MSG , ex);
 			throw new BusinessException(ex);
 		}
 		return out;
