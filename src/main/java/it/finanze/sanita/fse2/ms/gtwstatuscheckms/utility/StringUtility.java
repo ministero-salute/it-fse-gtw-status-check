@@ -1,5 +1,7 @@
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility;
 
+import com.google.gson.Gson;
+
 import java.util.UUID;
 
 public final class StringUtility {
@@ -31,4 +33,13 @@ public final class StringUtility {
 	    return UUID.randomUUID().toString();
 	}
 
+	/**
+	 * Transformation from Object to Json.
+	 *
+	 * @param obj	object to transform
+	 * @return		json
+	 */
+	public static String toJSON(final Object obj) {
+		return new Gson().toJson(obj);
+	}
 }
