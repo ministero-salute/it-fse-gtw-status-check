@@ -74,11 +74,14 @@ class TransactionInspectTest extends AbstractTest {
 	void successTest() {
 		ResponseEntity<TransactionInspectResDTO> response = getTransactionEvents(TestConstants.workflowInstanceId);
 		assertEquals(200, response.getStatusCodeValue());
-		assertNotEquals(null, response);
-		assertNotEquals(null, response.getBody());
-		assertNotEquals(null, response.getBody().getTransactionData());
-		assertNotEquals(0, response.getBody().getTransactionData().size());
-		assertEquals(4, response.getBody().getTransactionData().size());
+
+		assertNotNull(response);
+
+		final TransactionInspectResDTO body = response.getBody();
+		assertNotNull(body);
+		assertNotNull(body.getTransactionData());
+		assertNotEquals(0, body.getTransactionData().size());
+		assertEquals(4, body.getTransactionData().size());
 	}
 	
 	@Test
@@ -145,7 +148,6 @@ class TransactionInspectTest extends AbstractTest {
 	void noRecordFoundTest() throws Exception{
 		
 		assertThrows(HttpClientErrorException.class, () -> getTransactionEvents(TestConstants.workflowInstanceIdNoFound) );
-		
 	}
 
 	@Test
@@ -162,11 +164,7 @@ class TransactionInspectTest extends AbstractTest {
 				null
 		);
 		assertEquals(200, response.getStatusCodeValue());
-		assertNotEquals(null, response);
-		assertNotEquals(null, response.getBody());
-		assertNotEquals(null, response.getBody().getTransactionData());
-		assertNotEquals(0, response.getBody().getTransactionData().size());
-		assertEquals(2, response.getBody().getTransactionData().size());
+		validateBody(response, 2);
 
 		// Search by activityType 1
 		response = searchGenericTransactionEvents(
@@ -179,11 +177,7 @@ class TransactionInspectTest extends AbstractTest {
 				null
 		);
 		assertEquals(200, response.getStatusCodeValue());
-		assertNotEquals(null, response);
-		assertNotEquals(null, response.getBody());
-		assertNotEquals(null, response.getBody().getTransactionData());
-		assertNotEquals(0, response.getBody().getTransactionData().size());
-		assertEquals(2, response.getBody().getTransactionData().size());
+		validateBody(response, 2);
 
 		// Search by documentType 1
 		response = searchGenericTransactionEvents(
@@ -196,11 +190,7 @@ class TransactionInspectTest extends AbstractTest {
 				null
 		);
 		assertEquals(200, response.getStatusCodeValue());
-		assertNotEquals(null, response);
-		assertNotEquals(null, response.getBody());
-		assertNotEquals(null, response.getBody().getTransactionData());
-		assertNotEquals(0, response.getBody().getTransactionData().size());
-		assertEquals(4, response.getBody().getTransactionData().size());
+		validateBody(response, 4);
 
 		// Search by status1
 		response = searchGenericTransactionEvents(
@@ -213,11 +203,7 @@ class TransactionInspectTest extends AbstractTest {
 				null
 		);
 		assertEquals(200, response.getStatusCodeValue());
-		assertNotEquals(null, response);
-		assertNotEquals(null, response.getBody());
-		assertNotEquals(null, response.getBody().getTransactionData());
-		assertNotEquals(0, response.getBody().getTransactionData().size());
-		assertEquals(4, response.getBody().getTransactionData().size());
+		validateBody(response, 4);
 
 		// Search by subject1
 		response = searchGenericTransactionEvents(
@@ -230,11 +216,17 @@ class TransactionInspectTest extends AbstractTest {
 				TestConstants.subject1
 		);
 		assertEquals(200, response.getStatusCodeValue());
-		assertNotEquals(null, response);
-		assertNotEquals(null, response.getBody());
-		assertNotEquals(null, response.getBody().getTransactionData());
-		assertNotEquals(0, response.getBody().getTransactionData().size());
-		assertEquals(2, response.getBody().getTransactionData().size());
+		validateBody(response, 2);
+	}
+
+	private void validateBody(ResponseEntity<TransactionInspectResDTO> response, int expectedData) {
+		TransactionInspectResDTO body;
+		body = response.getBody();
+		
+		assertNotNull(response);
+		assertNotNull(body);
+		assertNotNull(body.getTransactionData());
+		assertEquals(expectedData, body.getTransactionData().size());
 	}
 	
 	@Test
@@ -317,11 +309,7 @@ class TransactionInspectTest extends AbstractTest {
 				TestConstants.traceIdMock
 		);
 		assertEquals(200, response.getStatusCodeValue());
-		assertNotNull(response);
-		assertNotNull(response.getBody());
-		assertNotNull(response.getBody().getTransactionData());
-		assertNotEquals(0, response.getBody().getTransactionData().size());
-		assertEquals(4, response.getBody().getTransactionData().size());
+		validateBody(response, 4);
 	}
 
 	@Test
@@ -340,11 +328,13 @@ class TransactionInspectTest extends AbstractTest {
 				TestConstants.workflowInstanceId
 		);
 		assertEquals(200, response.getStatusCodeValue());
+		final LastTransactionResponseDTO body = response.getBody();
+
 		assertNotNull(response);
-		assertNotNull(response.getBody());
-		assertNotNull(response.getBody().getLastTransactionData());
-		assertEquals("SEND_TO_EDS", response.getBody().getLastTransactionData().getEventType());
-		assertEquals("SUCCESS", response.getBody().getLastTransactionData().getEventStatus());
+		assertNotNull(body);
+		assertNotNull(body.getLastTransactionData());
+		assertEquals("SEND_TO_EDS", body.getLastTransactionData().getEventType());
+		assertEquals("SUCCESS", body.getLastTransactionData().getEventStatus());
 	}
 
 	@Test
