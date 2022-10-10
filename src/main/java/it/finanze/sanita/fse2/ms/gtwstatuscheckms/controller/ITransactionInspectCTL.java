@@ -35,7 +35,7 @@ public interface ITransactionInspectCTL {
 			@ApiResponse(responseCode = "500", description = "Internal Server Error", content = @Content(mediaType = MediaType.APPLICATION_PROBLEM_JSON_VALUE, schema = @Schema(implementation = ErrorResponseDTO.class))) })
 	TransactionInspectResDTO getEvents(@PathVariable(required = true, name = "workflowInstanceId") @Schema(description = "Identificativo del workflow") @Size(min = 0, max = 1000) String workflowInstanceId,HttpServletRequest request);
 
-	@GetMapping(value = "/search-last/{workflowInstanceId}")
+	@GetMapping(value = "/last-state-trasaction/{workflowInstanceId}")
 	@ApiResponse(content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = LastTransactionResponseDTO.class)))
 	@Operation(summary = "Recupero dell'ultimo evento associato al workflow instance id", description = "Recupera il dettaglio dell'ultimo evento tramite il workflow instance id.")
 	@ApiResponses(value = { @ApiResponse(responseCode = "200", description = "Eventi recuperati", content = @Content(mediaType = MediaType.APPLICATION_JSON_VALUE, schema = @Schema(implementation = LastTransactionResponseDTO.class))),

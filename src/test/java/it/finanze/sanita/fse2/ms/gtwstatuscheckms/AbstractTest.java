@@ -195,7 +195,7 @@ public abstract class AbstractTest {
         String url = "http://localhost:" +
                 webServerAppCtxt.getWebServer().getPort() +
                 webServerAppCtxt.getServletContext().getContextPath() +
-                "/v1/search-last/" +
+                "/v1/last-state-trasaction/" +
                 workflowInstanceId;
         return restTemplate.getForEntity(url, LastTransactionResponseDTO.class);
     }
