@@ -46,14 +46,6 @@ public final class Constants {
 		 */
 		public static final String REPOSITORY_MONGO = "it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository";
 
-		public static final class Collections {
-
-			public static final String TRANSACTION_DATA = "transaction_data";
-
-			private Collections() {
-
-			}
-		}
 		
 		private ComponentScan() {
 			//This method is intentionally left blank.
@@ -61,6 +53,15 @@ public final class Constants {
 
 	}
  
+	public static final class Collections {
+
+		public static final String TRANSACTION_DATA = "transaction_data";
+
+		private Collections() {
+
+		}
+	}
+	
 	public static final class Profile {
 		public static final String TEST = "test";
 
