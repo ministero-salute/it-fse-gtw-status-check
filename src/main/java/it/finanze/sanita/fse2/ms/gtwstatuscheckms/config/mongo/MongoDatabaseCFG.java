@@ -23,7 +23,6 @@ import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.Constants;
 
 /**
  * 
- * @author vincenzoingenito
  *
  *	Configuration for MongoDB.
  */

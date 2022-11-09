@@ -14,7 +14,6 @@ import lombok.Setter;
 
 /**
  * 
- * @author vincenzoingenito
  *
  *	DTO used to return inspect result.
  */
