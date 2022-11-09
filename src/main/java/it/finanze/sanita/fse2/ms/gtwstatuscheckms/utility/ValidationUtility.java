@@ -12,7 +12,6 @@ import static it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.Erro
 
 /**
  * 
- * @author vincenzoingenito
  *
  *  Validazione.
  */

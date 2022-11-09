@@ -6,7 +6,6 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions;
 import lombok.Getter;
 
 /**
- * @author vincenzoingenito
  * 
  * Generic validation exception.
  */

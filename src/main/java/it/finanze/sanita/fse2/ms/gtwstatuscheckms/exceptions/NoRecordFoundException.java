@@ -5,7 +5,6 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions;
 
 /**
  * 
- * @author vincenzoingenito
  *
  *	Eccezione di record not found.
  */

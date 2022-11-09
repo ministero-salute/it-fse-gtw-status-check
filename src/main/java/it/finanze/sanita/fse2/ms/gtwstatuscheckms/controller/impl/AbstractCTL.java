@@ -12,7 +12,6 @@ import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LogTraceInfoDTO;
 
 /**
  * 
- * @author vincenzoingenito
  *
  *	Abstract controller.
  */
