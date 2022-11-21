@@ -8,5 +8,6 @@ public enum EventTypeEnum {
     PUBLICATION,
     REPLACE,
     SEND_TO_INI,
-    SEND_TO_EDS
+    SEND_TO_EDS,
+    EDS_WORKFLOW
 }

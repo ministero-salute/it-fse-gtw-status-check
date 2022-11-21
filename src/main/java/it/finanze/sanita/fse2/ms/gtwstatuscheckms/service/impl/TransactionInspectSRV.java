@@ -74,13 +74,14 @@ public class TransactionInspectSRV implements ITransactionInspectSRV {
 			case PUBLICATION:
 			case SEND_TO_INI:
 			case REPLACE:
+			case SEND_TO_EDS:
 				if (Objects.equals(lastEvent.getEventStatus(), "SUCCESS")) {
 					transactionStatus = "IN CODA";
 				} else {
 					transactionStatus = lastEvent.getEventStatus();
 				}
 				break;
-			case SEND_TO_EDS:
+			case EDS_WORKFLOW:
 				transactionStatus = lastEvent.getEventStatus();
 				break;
 			default:
