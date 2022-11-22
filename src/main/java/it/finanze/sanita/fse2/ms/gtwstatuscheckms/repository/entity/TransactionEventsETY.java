@@ -74,5 +74,10 @@ public class TransactionEventsETY {
 	
 	@Field(name = "issuer")
 	private String issuer;
+	
+	@Field(name = "expiring_date")
+	private Date expiringDate;
+	
+	
     
 }
