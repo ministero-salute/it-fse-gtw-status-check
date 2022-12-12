@@ -267,8 +267,6 @@ class TransactionInspectTest extends AbstractTest {
 		} catch(HttpClientErrorException ex) {
 			Assertions.assertEquals(400, ex.getRawStatusCode());
 		}
-
-		assertThrows(HttpClientErrorException.class, () -> searchGenericTransactionEvents(request.getDataDa(), request.getDataA(), null, null, null, null, null) );
 	}
 	
 	
