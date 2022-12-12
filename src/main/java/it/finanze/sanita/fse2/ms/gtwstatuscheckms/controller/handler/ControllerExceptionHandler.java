@@ -46,7 +46,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = {ValidationException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleValidationException(final ValidationException ex, final WebRequest request) {
 		// Log me
-		log.warn("HANDLER handleValidationException()");
 		log.error("HANDLER handleValidationException()", ex);
 		// Create error DTO
 		ErrorResponseDTO out = createConstraintError(getLogTraceInfo(), ex);
@@ -67,7 +66,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = {NoRecordFoundException.class})
 	protected ResponseEntity<ErrorResponseDTO> handleNoRecordFoundException(final NoRecordFoundException ex, final WebRequest request) {
 		// Log me
-		log.warn("HANDLER handleNoRecordFoundException()");
 		log.error("HANDLER handleNoRecordFoundException()", ex);
 		// Create error DTO
 		ErrorResponseDTO out = createNoRecordFoundError(getLogTraceInfo(), ex);
@@ -88,7 +86,6 @@ public class ControllerExceptionHandler extends ResponseEntityExceptionHandler {
 	@ExceptionHandler(value = {Exception.class})
 	protected ResponseEntity<ErrorResponseDTO> handleGenericException(final Exception ex, final WebRequest request) {
 		// Log me
-		log.warn("HANDLER handleGenericException()");
 		log.error("HANDLER handleGenericException()", ex);
 		// Create error DTO
 		ErrorResponseDTO out = createGenericError(getLogTraceInfo(), ex);

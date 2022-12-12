@@ -12,14 +12,10 @@ import lombok.EqualsAndHashCode;
 @EqualsAndHashCode(callSuper = true)
 public class LastTransactionResponseDTO extends ResponseDTO {
 
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = -7747265284310662589L;
 	private String transactionStatus;
 
 	@Schema(description = "Ultimo evento trovato")
-	private transient TransactionEventsETY lastTransactionData;
+	private TransactionEventsETY lastTransactionData;
 
 	public LastTransactionResponseDTO() {
 		super();

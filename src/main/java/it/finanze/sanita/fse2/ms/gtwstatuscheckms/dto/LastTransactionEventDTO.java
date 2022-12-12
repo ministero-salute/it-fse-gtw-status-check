@@ -10,20 +10,14 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.io.Serializable;
-
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class LastTransactionEventDTO implements Serializable {
-    /**
-     * Serial version uid.
-     */
-    private static final long serialVersionUID = -7747265284310662589L;
+public class LastTransactionEventDTO {
 
     private String transactionStatus;
 
     @Schema(description = "Ultimo evento trovato")
-    private transient TransactionEventsETY lastTransactionData;
+    private TransactionEventsETY lastTransactionData;
 }

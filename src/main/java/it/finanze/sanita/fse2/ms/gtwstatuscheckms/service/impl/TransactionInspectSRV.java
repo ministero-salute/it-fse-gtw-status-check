@@ -23,11 +23,6 @@ import lombok.extern.slf4j.Slf4j;
 @Service
 public class TransactionInspectSRV implements ITransactionInspectSRV {
 
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = 4006570317802497296L;
-
 	@Autowired
 	private ITransactionInspectRepo transactionInspectRepo;
 

@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springdoc.core.customizers.OpenApiCustomiser;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -33,15 +32,10 @@ import io.swagger.v3.oas.models.servers.Server;
 	description = "JWT Authorization header using the Bearer scheme. Example: \"Authorization: Bearer {token} [RFC8725](https://tools.ietf.org/html/RFC8725).\"")
 public class OpenApiCFG {
 
-	@Autowired
-	private CustomSwaggerCFG customOpenapi;
-
-	public OpenApiCFG() {
-		// Empty constructor.
-	}
+	public OpenApiCFG() {}
 	
 	@Bean
-	public OpenApiCustomiser openApiCustomiser() {
+	public OpenApiCustomiser openApiCustomiser(CustomSwaggerCFG customOpenapi) {
       return openApi -> {
 
 			final List<String> required = new ArrayList<>();

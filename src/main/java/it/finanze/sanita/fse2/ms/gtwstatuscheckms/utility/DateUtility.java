@@ -3,8 +3,13 @@
  */
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility;
 
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.Calendar;
 import java.util.Date;
+
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.ErrorInstance.Fields;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.ValidationException;
 
 public final class DateUtility {
 
@@ -44,5 +49,25 @@ public final class DateUtility {
 		result.setTime(cal.getTime().getTime());
 
 		return result;
+	}
+	
+	/**
+	 * Metodo che valida un range di date.
+	 * 
+	 */
+	public static void checkRange(final LocalDate dataDa,final LocalDate dataA) {
+
+		if(dataDa.isAfter(dataA)) {
+			throw new ValidationException("Valorizzare correttamente l'ordine delle date.", Fields.DATA_DA);
+		}
+
+		if(dataDa.isAfter(LocalDate.now()) || dataA.isAfter(LocalDate.now())) {
+			throw new ValidationException("Le date non possono essere maggiori rispetto alla data odierna.", Fields.DATA_PERIOD);
+		}
+
+		Period period = Period.between(dataDa, dataA);
+		if(period.getMonths()>6) {
+			throw new ValidationException("L'intervallo di ricerca può essere al massimo di 6 mesi.", Fields.DATA_PERIOD);
+		}
 	}
 }

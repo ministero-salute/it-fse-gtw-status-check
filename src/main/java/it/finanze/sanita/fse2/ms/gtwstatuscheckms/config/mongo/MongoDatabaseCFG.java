@@ -4,7 +4,6 @@
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.mongo;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -22,29 +21,20 @@ import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.Constants;
  
 
 /**
- * 
- *
  *	Configuration for MongoDB.
  */
 @Configuration
 @EnableMongoRepositories(basePackages = Constants.ComponentScan.CONFIG_MONGO)
 public class MongoDatabaseCFG {
 
-	@Autowired
-	private MongoPropertiesCFG mongoPropertiesCFG;
-
-    @Autowired
-    private ApplicationContext appContext;
-
     @Bean
-    public MongoDatabaseFactory mongoDatabaseFactory(){
+    public MongoDatabaseFactory mongoDatabaseFactory(final MongoPropertiesCFG mongoPropertiesCFG){
         return new SimpleMongoClientDatabaseFactory(mongoPropertiesCFG.getUri());
     }
 
     @Bean
     @Primary
-    public MongoTemplate mongoTemplate() {
-        final MongoDatabaseFactory factory = mongoDatabaseFactory();
+    public MongoTemplate mongoTemplate(final MongoDatabaseFactory factory, final ApplicationContext appContext) {
         final MongoMappingContext mongoMappingContext = new MongoMappingContext();
         mongoMappingContext.setApplicationContext(appContext);
         MappingMongoConverter converter = new MappingMongoConverter(new DefaultDbRefResolver(factory), mongoMappingContext);

@@ -5,8 +5,6 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility;
 
 import com.google.gson.Gson;
 
-import java.util.UUID;
-
 public final class StringUtility {
 
 	/**
@@ -30,11 +28,6 @@ public final class StringUtility {
 		return out;
 	}
 
-	     
-
-	public static String generateUUID() {
-	    return UUID.randomUUID().toString();
-	}
 
 	/**
 	 * Transformation from Object to Json.

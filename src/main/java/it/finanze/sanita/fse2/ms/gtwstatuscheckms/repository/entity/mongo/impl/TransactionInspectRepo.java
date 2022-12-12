@@ -26,12 +26,9 @@ import lombok.extern.slf4j.Slf4j;
 @Repository
 public class TransactionInspectRepo implements ITransactionInspectRepo {
 
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = 5151052155295400479L;
 	private static final String EVENT_DATE = "eventDate";
-	private static final String ERROR_MSG = "Error while find events by transaction id : ";
+	
+	private static final String ERROR_MSG = "Error while find events by workflow instance id : ";
 
 	
 	@Autowired

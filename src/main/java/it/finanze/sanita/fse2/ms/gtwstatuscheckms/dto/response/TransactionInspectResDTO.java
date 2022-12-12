@@ -13,19 +13,12 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * 
- *
  *	DTO used to return inspect result.
  */
 @Getter
 @Setter
 public class TransactionInspectResDTO extends ResponseDTO {
 
-	/**
-	 * Serial version uid.
-	 */
-	private static final long serialVersionUID = -1550024371939901939L;
-	
 	@Schema(description = "Eventi trovati")
 	@Size(min = 0, max = 1000)
 	private List<TransactionEventsETY> transactionData;

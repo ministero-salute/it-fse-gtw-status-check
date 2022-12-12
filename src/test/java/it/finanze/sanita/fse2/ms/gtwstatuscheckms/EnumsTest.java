@@ -18,28 +18,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 @ActiveProfiles(Constants.Profile.TEST)
 class EnumsTest {
 
-    @Test
-    @DisplayName("actionResEnum")
-    void actionResEnum() {
-        String code = ActionRes.OK.name();
-        assertEquals(code, ActionRes.OK.name());
-    }
-
-    @Test
-    @DisplayName("testCurrentApplicationLogEnums")
-    void testCurrentApplicationLogEnums() {
-        String code = "gtw-dispatcher";
-        String description = "Gateway FSE - Dispatcher";
-        assertEquals(code, CurrentApplicationLogEnum.DISPATCHER.getCode());
-        assertEquals(description, CurrentApplicationLogEnum.DISPATCHER.getDescription());
-    }
-
-    @Test
-    @DisplayName("testErrorLogEnums")
-    void testErrorLogEnums() {
-        String code = "KO-EDS";
-        assertEquals(code, ErrorLogEnum.KO_EDS.getCode());
-    }
 
     @Test
     @DisplayName("testEventTypeEnums")
@@ -47,11 +25,5 @@ class EnumsTest {
         String code = EventTypeEnum.VALIDATION.name();
         assertEquals(code, EventTypeEnum.VALIDATION.name());
     }
-
-    @Test
-    @DisplayName("testResultLogEnum")
-    void testResultLogEnum() {
-        String code = ResultLogEnum.KO.getCode();
-        assertEquals(code, ResultLogEnum.KO.getCode());
-    }
+ 
 }

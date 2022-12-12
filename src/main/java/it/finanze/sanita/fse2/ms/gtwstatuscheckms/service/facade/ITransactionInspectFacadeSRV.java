@@ -3,14 +3,13 @@
  */
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.service.facade;
 
-import java.io.Serializable;
 import java.util.List;
 
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.LastTransactionEventDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
 
-public interface ITransactionInspectFacadeSRV extends Serializable {
+public interface ITransactionInspectFacadeSRV {
 
 	List<TransactionEventsETY> findEventsByWorkflowInstanceId(String workflowInstanceId);
 
