@@ -15,6 +15,7 @@ import it.finanze.sanita.fse2.ms.gtwstatuscheckms.controller.ITransactionInspect
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.LastTransactionEventDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LastTransactionResponseDTO;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LogTraceInfoDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.TransactionInspectResDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
@@ -31,19 +32,40 @@ public class TransactionInspectCTL extends AbstractCTL implements ITransactionIn
 
 	@Override
 	public TransactionInspectResDTO getEvents(String workflowInstanceId, HttpServletRequest request) {
-		log.info("Get events START");
+		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+		
+		log.info("[START] {}() with arguments {}={}, {}={}", "getEvents",
+    			"traceId", traceInfoDTO.getTraceID(),
+        		"wif", workflowInstanceId
+        		);
+
 		final List<TransactionEventsETY> result = transactionInspectSRV.findEventsByWorkflowInstanceId(workflowInstanceId);
 
 		if(result==null || result.isEmpty()) {
 			throw new NoRecordFoundException("Record non trovato");
 		}
+		
+		log.info("[EXIT] {}() with arguments {}={}, {}={}", "getEvents",
+    			"traceId", traceInfoDTO.getTraceID(),
+        		"wif", workflowInstanceId
+        		);
 		return new TransactionInspectResDTO(getLogTraceInfo(), result);
 	}
 
 	@Override
 	public LastTransactionResponseDTO getLastEvent(String workflowInstanceId, HttpServletRequest request) {
-		log.info("Search last event START");
+		final LogTraceInfoDTO traceInfoDTO = getLogTraceInfo();
+
+		log.info("[START] {}() with arguments {}={}, {}={}", "getLastEvent",
+    			"traceId", traceInfoDTO.getTraceID(),
+        		"wif", workflowInstanceId
+        		);
 		final LastTransactionEventDTO lastEvent = transactionInspectSRV.searchLastEventByWorkflowInstanceId(workflowInstanceId);
+		
+		log.info("[EXIT] {}() with arguments {}={}, {}={}", "getLastEvent",
+    			"traceId", traceInfoDTO.getTraceID(),
+        		"wif", workflowInstanceId
+        		);
 		return new LastTransactionResponseDTO(getLogTraceInfo(), lastEvent.getTransactionStatus(), lastEvent.getLastTransactionData());
 	}
 
