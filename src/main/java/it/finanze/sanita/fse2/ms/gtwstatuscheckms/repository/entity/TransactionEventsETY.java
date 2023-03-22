@@ -78,8 +78,6 @@ public class TransactionEventsETY {
 	@Field(name = "expiring_date")
 	private Date expiringDate;
 	
-	@Field(name = "extra")
-	@Size(min = 0, max = 100)
-	private String extra;
+	
     
 }
