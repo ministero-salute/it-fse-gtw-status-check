@@ -12,3 +12,4 @@ bin/
 .metadata
 tmp/
 /.apt_generated_tests/
+.DS_Store
