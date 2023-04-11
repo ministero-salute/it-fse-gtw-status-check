@@ -15,6 +15,7 @@ import org.springframework.stereotype.Repository;
 
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.DbPropertyCFG;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.enums.EventTypeEnum;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.BusinessException;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.mongo.ITransactionInspectRepo;
@@ -127,4 +128,19 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		}
 		return out;
 	}
+	
+	@Override
+	public List<TransactionEventsETY> findPublicationByIdDocumento(final String idDocumento) {
+		List<TransactionEventsETY> out = null;
+		try {
+			Query query = new Query();
+			query.addCriteria(Criteria.where("identificativoDocumento").is(idDocumento).and("eventType").is(EventTypeEnum.PUBLICATION).and("eventStatus").is("SUCCESS"));
+			out = mongoTemplate.find(query, TransactionEventsETY.class);
+		} catch(Exception ex) {
+			log.error("Error while search generic events : " , ex);
+			throw new BusinessException(ex);
+		}
+		return out;
+	}
+	 
 }
