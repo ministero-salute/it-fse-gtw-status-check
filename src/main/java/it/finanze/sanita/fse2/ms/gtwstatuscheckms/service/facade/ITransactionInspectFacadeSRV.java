@@ -18,4 +18,6 @@ public interface ITransactionInspectFacadeSRV {
 	List<TransactionEventsETY> findEventsByTraceId(String traceId);
 
 	LastTransactionEventDTO searchLastEventByWorkflowInstanceId(String workflowInstanceId);
+	
+	List<TransactionEventsETY> searchPublicationByIdDocumento(String idDocumento);
 }
