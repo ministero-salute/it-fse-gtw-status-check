@@ -110,7 +110,7 @@ public class TransactionInspectCTL extends AbstractCTL implements ITransactionIn
 	public TransactionInspectResDTO searchByIdDocumento(String idDocumento, HttpServletRequest request) {
 		log.info("Search generic event START");
 		
-		final List<TransactionEventsETY> result = transactionInspectSRV.searchPublicationByIdDocumento(idDocumento);
+		final List<TransactionEventsETY> result = transactionInspectSRV.searchByIdDocumento(idDocumento);
 		
 		if(result.isEmpty()) {
 			throw new NoRecordFoundException("Id documento non presente");

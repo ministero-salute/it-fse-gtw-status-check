@@ -100,9 +100,9 @@ public class TransactionInspectSRV implements ITransactionInspectSRV {
 	}
 	
 	@Override
-	public List<TransactionEventsETY> searchPublicationByIdDocumento(final String idDocumento) {
+	public List<TransactionEventsETY> searchByIdDocumento(final String idDocumento) {
 		try {
-			return transactionInspectRepo.findPublicationByIdDocumento(idDocumento);
+			return transactionInspectRepo.findByIdDocumento(idDocumento);
 		} catch(Exception ex) {
 			log.error("Error while search generic events: {}" , ex.getMessage());
 			throw new BusinessException(ex);

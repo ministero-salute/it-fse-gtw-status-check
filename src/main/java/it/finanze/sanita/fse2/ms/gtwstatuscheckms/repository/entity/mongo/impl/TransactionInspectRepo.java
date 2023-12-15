@@ -11,9 +11,14 @@
  */
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.mongo.impl;
 
-import java.util.Date;
-import java.util.List;
-
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.DbPropertyCFG;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.BusinessException;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.mongo.ITransactionInspectRepo;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility.DateUtility;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility.StringUtility;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -21,15 +26,13 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.stereotype.Repository;
 
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.DbPropertyCFG;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.TransactionSearchDTO;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.enums.EventTypeEnum;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.BusinessException;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.mongo.ITransactionInspectRepo;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility.DateUtility;
-import it.finanze.sanita.fse2.ms.gtwstatuscheckms.utility.StringUtility;
-import lombok.extern.slf4j.Slf4j;
+import java.util.Date;
+import java.util.List;
+
+import static it.finanze.sanita.fse2.ms.gtwstatuscheckms.enums.EventTypeEnum.PUBLICATION;
+import static it.finanze.sanita.fse2.ms.gtwstatuscheckms.enums.EventTypeEnum.REPLACE;
+import static it.finanze.sanita.fse2.ms.gtwstatuscheckms.repository.entity.TransactionEventsETY.*;
+import static org.springframework.data.mongodb.core.query.Criteria.where;
 
 @Slf4j
 @Repository
@@ -51,7 +54,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		List<TransactionEventsETY> out = null;
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
+			query.addCriteria(where("workflow_instance_id").is(workflowInstanceId));
 			query.with(Sort.by(Sort.Direction.ASC, EVENT_DATE));
 			
 			if(limitConfig.getLimitConfig()==null || limitConfig.getLimitConfig().equals(0)) {
@@ -78,7 +81,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 			Date dataA = DateUtility.setDateTo2359(java.sql.Date.valueOf(searchParametersDTO.getDataA()));
 			
 			Criteria criteria = new Criteria();
-			criteria.andOperator(Criteria.where(EVENT_DATE).gte(dataDa).lte(dataA));
+			criteria.andOperator(where(EVENT_DATE).gte(dataDa).lte(dataA));
 			
 			if(!StringUtility.isNullOrEmpty(searchParametersDTO.getStatus())) {
 				criteria.and("eventStatus").is(searchParametersDTO.getStatus());	
@@ -111,7 +114,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		List<TransactionEventsETY> out = null;
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("traceId").is(traceId));
+			query.addCriteria(where("traceId").is(traceId));
 			query.with(Sort.by(Sort.Direction.ASC, EVENT_DATE));
 			out = mongoTemplate.find(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
@@ -127,7 +130,7 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 		TransactionEventsETY out = null;
 		try {
 			Query query = new Query();
-			query.addCriteria(Criteria.where("workflow_instance_id").is(workflowInstanceId));
+			query.addCriteria(where("workflow_instance_id").is(workflowInstanceId));
 			query.with(Sort.by(Sort.Direction.DESC, EVENT_DATE));
 			out = mongoTemplate.findOne(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
@@ -138,11 +141,14 @@ public class TransactionInspectRepo implements ITransactionInspectRepo {
 	}
 	
 	@Override
-	public List<TransactionEventsETY> findPublicationByIdDocumento(final String idDocumento) {
-		List<TransactionEventsETY> out = null;
+	public List<TransactionEventsETY> findByIdDocumento(final String idDocumento) {
+		List<TransactionEventsETY> out;
+		Query query = new Query(
+			where(FIELD_ID_DOC).is(idDocumento).
+			and(FIELD_EVENT_TYPE).in(PUBLICATION, REPLACE).
+			and(FIELD_EVENT_STATUS).is(EVENT_STATUS_SUCCESS)
+		);
 		try {
-			Query query = new Query();
-			query.addCriteria(Criteria.where("identificativoDocumento").is(idDocumento).and("eventType").is(EventTypeEnum.PUBLICATION).and("eventStatus").is("SUCCESS"));
 			out = mongoTemplate.find(query, TransactionEventsETY.class);
 		} catch(Exception ex) {
 			log.error("Error while search generic events : " , ex);

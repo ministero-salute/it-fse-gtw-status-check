@@ -27,5 +27,5 @@ public interface ITransactionInspectFacadeSRV {
 
 	LastTransactionEventDTO searchLastEventByWorkflowInstanceId(String workflowInstanceId);
 	
-	List<TransactionEventsETY> searchPublicationByIdDocumento(String idDocumento);
+	List<TransactionEventsETY> searchByIdDocumento(String idDocumento);
 }

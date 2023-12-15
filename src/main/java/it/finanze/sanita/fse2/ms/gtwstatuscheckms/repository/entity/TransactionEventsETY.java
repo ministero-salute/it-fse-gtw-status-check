@@ -34,18 +34,24 @@ import lombok.NoArgsConstructor;
 @Builder
 public class TransactionEventsETY {
 
-    @Id
+	public static final String FIELD_ID_DOC = "identificativoDocumento";
+	public static final String FIELD_EVENT_TYPE = "eventType";
+	public static final String FIELD_EVENT_STATUS = "eventStatus";
+
+	public static final String EVENT_STATUS_SUCCESS = "SUCCESS";
+
+	@Id
 	@Size(min = 0, max = 100)
 	private String id;
 	
-	@Field(name = "eventType")
+	@Field(name = FIELD_EVENT_TYPE)
 	@Size(min = 0, max = 100)
 	private String eventType;
 
 	@Field(name = "eventDate")
 	private Date eventDate;  
 	
-	@Field(name = "eventStatus")
+	@Field(name = FIELD_EVENT_STATUS)
 	@Size(min = 0, max = 100)
 	private String eventStatus;
 	
@@ -53,7 +59,7 @@ public class TransactionEventsETY {
 	@Size(min = 0, max = 100)
 	private String message;
 
-	@Field(name = "identificativoDocumento")
+	@Field(name = FIELD_ID_DOC)
 	@Size(min = 0, max = 100)
 	private String identificativoDocumento;
 

@@ -26,5 +26,5 @@ public interface ITransactionInspectRepo {
 
 	TransactionEventsETY findLastEventByWorkflowInstanceId(String workflowInstanceId);
 	
-	List<TransactionEventsETY> findPublicationByIdDocumento(String idDocumento);
+	List<TransactionEventsETY> findByIdDocumento(String idDocumento);
 }
