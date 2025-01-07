@@ -69,11 +69,13 @@ Please check the [AUTHORS](AUTHORS) file for extended reference.
 | ch.qos.logback.contrib:logback-jackson                                     | 0.1.5   | EPL1.0 & LGPL2.1   |
 | org.projectlombok:lombok                                                   | 1.18.30 | MIT License        |
 | org.springframework.boot:spring-boot-starter-test                          | 2.7.18  | Apache License 2.0 |
-| org.springframework.kafka:spring-kafka                                     | 2.9.11  | Apache License 2.0 |
-| org.springframework.kafka:spring-kafka-test                                | 2.9.11  | Apache License 2.0 |
+| org.springframework.boot:spring-boot-starter-data-mongodb                  | 2.7.18  | Apache License 2.0 |
+| org.mongodb:mongodb-driver-sync                                            | 5.2.1   | Apache License 2.0 |
+| org.mongodb:mongodb-driver-core                                            | 5.2.1   | Apache License 2.0 |
+| org.mongodb:bson                                                           | 5.2.1   | Apache License 2.0 |
 | org.apache.commons:commons-pool2                                           | 2.11.1  | Apache License 2.0 |
-| com.google.code.gson:gson                                                  | 2.9.1   | Apache License 2.0 |
 | org.springframework.cloud:spring-cloud-starter-sleuth                      | 3.1.1   | Apache License 2.0 |
+| com.google.code.gson:gson                                                  | 2.9.1   | Apache License 2.0 |
 
 ## Licence details
 
