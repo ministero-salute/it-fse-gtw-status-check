@@ -14,7 +14,7 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.openapi;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springdoc.core.customizers.OpenApiCustomiser;
+import org.springdoc.core.customizers.OpenApiCustomizer;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
@@ -43,7 +43,7 @@ public class OpenApiCFG {
 	public OpenApiCFG() {}
 	
 	@Bean
-	public OpenApiCustomiser openApiCustomiser(CustomSwaggerCFG customOpenapi) {
+	public OpenApiCustomizer openApiCustomiser(CustomSwaggerCFG customOpenapi) {
       return openApi -> {
 
 			final List<String> required = new ArrayList<>();
@@ -106,7 +106,7 @@ public class OpenApiCFG {
 	}
 
 	@Bean
-	public OpenApiCustomiser customerGlobalHeaderOpenApiCustomiser() {
+	public OpenApiCustomizer customerGlobalHeaderOpenApiCustomiser() {
 		return openApi -> {
 			openApi.getPaths().values().forEach(pathItem -> pathItem.readOperations().forEach(operation -> {
 				final ApiResponses apiResponses = operation.getResponses();
