@@ -11,7 +11,7 @@
  */
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.AbstractDTO;
 import lombok.Getter;

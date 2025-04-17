@@ -13,8 +13,8 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.controller;
 
 import java.time.LocalDate;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.validation.constraints.Size;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.validation.constraints.Size;
 
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LastTransactionResponseDTO;
 import org.springframework.http.MediaType;
