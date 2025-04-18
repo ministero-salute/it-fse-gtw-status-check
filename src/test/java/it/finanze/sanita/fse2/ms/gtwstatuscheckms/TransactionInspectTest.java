@@ -29,11 +29,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.bean.override.mockito.MockitoBean;
 import org.springframework.web.client.HttpClientErrorException;
 
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.Constants;
@@ -62,7 +62,7 @@ class TransactionInspectTest extends AbstractTest {
 	@Autowired
 	private MongoTemplate mongo;
     
-    @MockBean
+    @MockitoBean
     private DbPropertyCFG limitProperty;
     
     @Autowired

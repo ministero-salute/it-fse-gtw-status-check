@@ -11,13 +11,15 @@
  */
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error;
 
+import org.springframework.http.HttpStatus;
+
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LogTraceInfoDTO;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.ErrorInstance.Resource;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.ErrorInstance.Server;
+import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.ErrorInstance.Validation;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.base.ErrorResponseDTO;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.NoRecordFoundException;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.exceptions.ValidationException;
-
-import static it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.error.ErrorInstance.*;
-import static org.apache.http.HttpStatus.*;
 
 public final class ErrorBuilderDTO {
     /**
@@ -31,7 +33,7 @@ public final class ErrorBuilderDTO {
             ErrorType.VALIDATION.getType(),
             ErrorType.VALIDATION.getTitle(),
             ex.getMessage(),
-            SC_BAD_REQUEST,
+            HttpStatus.BAD_REQUEST.value(),
             ErrorType.VALIDATION.toInstance(Validation.CONSTRAINT_FIELD, ex.getField())
         );
     }
@@ -42,7 +44,7 @@ public final class ErrorBuilderDTO {
             ErrorType.SERVER.getType(),
             ErrorType.SERVER.getTitle(),
             ex.getMessage(),
-            SC_INTERNAL_SERVER_ERROR,
+            HttpStatus.INTERNAL_SERVER_ERROR.value(),
             ErrorType.SERVER.toInstance(Server.INTERNAL)
         );
     }
@@ -53,7 +55,7 @@ public final class ErrorBuilderDTO {
             ErrorType.RESOURCE.getType(),
             ErrorType.RESOURCE.getTitle(),
             ex.getMessage(),
-            SC_NOT_FOUND,
+            HttpStatus.NOT_FOUND.value(),
             ErrorType.RESOURCE.toInstance(Resource.NOT_FOUND)
         );
     }
