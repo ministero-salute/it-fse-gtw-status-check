@@ -154,18 +154,18 @@
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-pool2</artifactId>
 		</dependency>
-
-		<!-- TRACING -->
-		<dependency>
-			<groupId>io.micrometer</groupId>
-			<artifactId>micrometer-tracing-bridge-brave</artifactId>
-		</dependency>
-
+ 
 		<!-- GSON -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 		</dependency>
+		
+		 <!-- OpenTelemetry - Micrometer -->
+	    <dependency>
+	      <groupId>io.opentelemetry.instrumentation</groupId>
+	      <artifactId>opentelemetry-spring-boot-starter</artifactId>
+	    </dependency>
 
 	</dependencies>
 
@@ -178,6 +178,13 @@
 				<type>pom</type>
 				<scope>import</scope>
 			</dependency>
+			<dependency>
+		        <groupId>io.opentelemetry.instrumentation</groupId>
+		        <artifactId>opentelemetry-instrumentation-bom</artifactId>
+		        <version>2.15.0</version>
+		        <type>pom</type>
+		        <scope>import</scope>
+		      </dependency>
 		</dependencies>
 	</dependencyManagement>
 

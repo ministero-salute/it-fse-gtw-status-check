@@ -11,9 +11,12 @@
  */
 package it.finanze.sanita.fse2.ms.gtwstatuscheckms.controller.impl;
 
+import static it.finanze.sanita.fse2.ms.gtwstatuscheckms.config.Constants.Properties.MS_NAME;
+
 import org.springframework.beans.factory.annotation.Autowired;
 
-import brave.Tracer;
+import io.opentelemetry.api.trace.SpanBuilder;
+import io.opentelemetry.api.trace.Tracer;
 import it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto.response.LogTraceInfoDTO;
 
 /**
@@ -27,10 +30,12 @@ public abstract class AbstractCTL {
         
 	protected LogTraceInfoDTO getLogTraceInfo() {
 		LogTraceInfoDTO out = new LogTraceInfoDTO(null, null);
-		if (tracer.currentSpan() != null) {
+		SpanBuilder spanbuilder = tracer.spanBuilder(MS_NAME);
+		
+		if (spanbuilder != null) {
 			out = new LogTraceInfoDTO(
-					tracer.currentSpan().context().spanIdString(), 
-					tracer.currentSpan().context().traceIdString());
+					spanbuilder.startSpan().getSpanContext().getSpanId(), 
+					spanbuilder.startSpan().getSpanContext().getTraceId());
 		}
 		return out;
 	}
