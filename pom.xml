@@ -6,7 +6,7 @@
 	<groupId>it.finanze.sanita.fse2</groupId>
 	<artifactId>gtw-status-check-ms</artifactId>
 	<name>gtw-status-check-ms</name>
-	<version>0.3.0-RELEASE</version>
+	<version>3.0.0-AVICENNA</version>
 	<description>Gateway Status check FSE</description>
 
 	<parent>
@@ -85,7 +85,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-actuator</artifactId>
 		</dependency>
-	 
 
 		<!-- OpenAPI -->
 		<!--
