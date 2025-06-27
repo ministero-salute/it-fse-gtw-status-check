@@ -20,6 +20,11 @@ import org.springframework.web.client.RestTemplate;
 @SpringBootApplication
 public class GtwStatusCheckMsApplication {
 
+
+	public static void main(String[] args) {
+		SpringApplication.run(GtwStatusCheckMsApplication.class, args);
+	}
+
 	/**
 	 * Definizione rest template.
 	 *
@@ -30,9 +35,4 @@ public class GtwStatusCheckMsApplication {
 	public RestTemplate restTemplate() {
 		return new RestTemplate();
 	}
-
-	public static void main(String[] args) {
-		SpringApplication.run(GtwStatusCheckMsApplication.class, args);
-	}
-
 }
