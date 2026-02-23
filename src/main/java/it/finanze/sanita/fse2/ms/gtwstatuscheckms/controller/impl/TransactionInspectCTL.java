@@ -14,7 +14,7 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.controller.impl;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RestController;

@@ -13,7 +13,7 @@ package it.finanze.sanita.fse2.ms.gtwstatuscheckms.dto;
 
 import java.time.LocalDate;
 
-import javax.validation.constraints.Size;
+import jakarta.validation.constraints.Size;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
