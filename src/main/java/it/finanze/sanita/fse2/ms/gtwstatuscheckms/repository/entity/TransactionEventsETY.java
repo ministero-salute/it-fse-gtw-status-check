@@ -37,6 +37,7 @@ public class TransactionEventsETY {
 	public static final String FIELD_ID_DOC = "identificativoDocumento";
 	public static final String FIELD_EVENT_TYPE = "eventType";
 	public static final String FIELD_EVENT_STATUS = "eventStatus";
+	public static final String FIELD_DETAIL = "detail";
 
 	public static final String EVENT_STATUS_SUCCESS = "SUCCESS";
 
@@ -95,5 +96,9 @@ public class TransactionEventsETY {
 	@Field(name = "extra")
 	@Size(min = 0, max = 100)
 	private String extra;
-    
+
+	@Field(name = FIELD_DETAIL)
+	@Size(min = 0, max = 1000)
+	private String detail;
+
 }
